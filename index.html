@@ -1,1 +1,1255 @@
-.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MassDM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="modal-overlay" id="modal" onclick="modalClose()">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-msg" id="modal-msg"></div>
+    <div class="modal-actions" id="modal-actions"></div>
+  </div>
+</div>
+
+<div class="shell">
+
+  <nav id="sidebar">
+  <div class="nav-logo">
+    <span class="logo">massdm</span>
+    <span class="tag">@ajsdkf</span>
+    <span class="logo-collapsed">M</span>
+  </div>
+
+  <div class="nav-links">
+
+    <button class="active" onclick="showPage('massdm',this)" data-label="mass dm">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+      <span>mass dm</span>
+    </button>
+
+    <button onclick="showPage('tokens',this)" data-label="tokens">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="11" width="18" height="11" rx="2"/>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+      <span>tokens</span>
+    </button>
+
+    <button onclick="showPage('message',this)" data-label="message">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M11 4H4a2 2 0 0 0-2 2v14l4-4h14a2 2 0 0 0 2-2v-5"/>
+        <path d="M18 2l4 4-8 8H10v-4l8-8z"/>
+      </svg>
+      <span>message</span>
+    </button>
+
+    <button onclick="showPage('checker',this)" data-label="checker">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+        <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+      <span>checker</span>
+    </button>
+
+    <button onclick="showPage('embed',this)" data-label="embed">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="16 18 22 12 16 6"/>
+        <polyline points="8 6 2 12 8 18"/>
+      </svg>
+      <span>embed</span>
+    </button>
+
+    <button onclick="showPage('webhook',this)" data-label="webhook">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 20V10"/>
+        <path d="M12 20V4"/>
+        <path d="M6 20v-6"/>
+      </svg>
+      <span>webhook</span>
+    </button>
+
+    <button onclick="flashNotify('work in progress')" data-label="nuke">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/>
+        <circle cx="12" cy="12" r="7" stroke-dasharray="3 2"/>
+      </svg>
+      <span>nuke</span>
+    </button>
+
+    <button onclick="showPage('log',this)" data-label="log">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/>
+        <line x1="16" y1="17" x2="8" y2="17"/>
+      </svg>
+      <span>log</span>
+    </button>
+
+    <button onclick="showPage('settings',this)" data-label="settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+      <span>settings</span>
+    </button>
+
+    <!-- ADMIN -->
+    <button onclick="openAdminPanel(ADMIN_USER_ID)" data-label="admin">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4z"/>
+        <path d="M9 12l2 2 4-4"/>
+      </svg>
+      <span>admin</span>
+    </button>
+
+  </div>
+
+  <div class="nav-footer">
+    <span class="token-pill" id="token-count-badge-top">0 tokens</span>
+
+    <div class="vol-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="flex-shrink:0;color:var(--text2)">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+      </svg>
+
+      <input
+        type="range"
+        id="bg-vol"
+        min="0"
+        max="100"
+        value="40"
+        oninput="document.getElementById('bg-audio').volume=this.value/100;S.set('bgVol',this.value)"
+      >
+    </div>
+  </div>
+</nav>
+
+  <button class="sidebar-toggle" id="sidebar-toggle" onclick="toggleSidebar()" title="collapse"><span class="sidebar-toggle-icon">‹</span></button>
+
+  <div class="shell-body">
+  <main>
+
+    <!-- MASS DM PAGE -->
+    <div class="page active" id="page-massdm" data-title="mass dm">
+      <div class="stat-row">
+        <div class="stat"><span class="sval" id="stat-sent">0</span><span class="slbl">sent</span></div>
+        <div class="stat"><span class="sval" id="stat-failed">0</span><span class="slbl">failed</span></div>
+        <div class="stat"><span class="sval" id="stat-tokens">0</span><span class="slbl">tokens</span></div>
+        <div class="stat"><span class="sval" id="stat-status">idle</span><span class="slbl">status</span></div>
+      </div>
+
+      <div class="tab-bar">
+        <button class="tab active" onclick="switchDMTab('single',this)">single server</button>
+        <button class="tab" onclick="switchDMTab('global',this)">global</button>
+      </div>
+
+      <div id="dm-single">
+        <div class="panel">
+          <div class="field">
+            <label>guild ids <span class="dim-text" style="font-weight:400">(comma-separated)</span></label>
+            <input type="text" id="guild-id" placeholder="111111111111111111, 222222222222222222, ...">
+          </div>
+          <div class="field inline-field">
+            <label>attach embed from builder</label>
+            <label class="toggle" style="margin-left:8px">
+              <input type="checkbox" id="dm-use-embed" onchange="renderDMPreview()">
+              <span class="toggle-track"><span class="toggle-thumb"></span></span>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="btn-run" onclick="startMassDM('single')">▶ start</button>
+            <button class="btn-ghost" id="btn-pause" onclick="pauseDM()" style="display:none">⏸ pause</button>
+            <button class="btn-run"  id="btn-resume" onclick="resumeDM()" style="display:none">▶ resume</button>
+            <button class="btn-stop" onclick="stopDM()">■ stop</button>
+            <span class="dim-text" style="font-size:11px">ctrl+enter to start · space to pause · esc to stop</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="dm-global" style="display:none">
+        <div class="panel">
+          <div class="field inline-field">
+            <label>attach embed from builder</label>
+            <label class="toggle" style="margin-left:8px">
+              <input type="checkbox" id="dm-use-embed-global" onchange="document.getElementById('dm-use-embed').checked=this.checked;renderDMPreview()">
+              <span class="toggle-track"><span class="toggle-thumb"></span></span>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="btn-run" onclick="startMassDM('global')">▶ start global</button>
+            <button class="btn-ghost" id="btn-pause-global" onclick="pauseDM()" style="display:none">⏸ pause</button>
+            <button class="btn-run"  id="btn-resume-global" onclick="resumeDM()" style="display:none">▶ resume</button>
+            <button class="btn-stop" onclick="stopDM()">■ stop</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">preview</div>
+        <div class="discord-msg">
+          <div class="discord-avatar"></div>
+          <div class="discord-bubble">
+            <span class="discord-bot-name">bot <span class="discord-bot-tag">APP</span></span>
+            <div id="dm-preview-content" class="wh-preview-text"></div>
+            <div id="dm-preview-embed-wrap" style="display:none">
+              <div class="discord-embed">
+                <div class="de-pill" id="dm-de-pill"></div>
+                <div class="de-body">
+                  <div class="de-author" id="dm-de-author" style="display:none">
+                    <img class="de-author-icon" id="dm-de-author-icon" src="" style="display:none">
+                    <span id="dm-de-author-name"></span>
+                  </div>
+                  <div class="de-title" id="dm-de-title" style="display:none"></div>
+                  <div class="de-desc" id="dm-de-desc" style="display:none"></div>
+                  <img class="de-image" id="dm-de-image" src="" style="display:none">
+                  <div class="de-footer" id="dm-de-footer" style="display:none">
+                    <img class="de-footer-icon" id="dm-de-footer-icon" src="" style="display:none">
+                    <span id="dm-de-footer-text"></span>
+                  </div>
+                </div>
+                <img class="de-thumbnail" id="dm-de-thumbnail" src="" style="display:none">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel log-panel">
+        <div class="log-header">
+          <span>output</span>
+          <div class="progress-wrap"><div class="progress-bar" id="dm-progress" style="width:0%"></div></div>
+          <button class="btn-ghost btn-xs" onclick="exportLog()">export</button>
+        </div>
+        <div id="dm-eta-bar" style="display:none;padding:6px 16px 0;font-size:11.5px;color:var(--text2);font-family:'JetBrains Mono',monospace;">
+          <span id="dm-eta"></span>
+        </div>
+        <div class="log" id="dm-log"><div class="log-line log-info">[~] ready.</div></div>
+      </div>
+    </div>
+
+    <!-- TOKENS PAGE -->
+<div class="page" id="page-tokens" data-title="tokens">
+  <div class="two-col">
+    <div class="panel">
+      <div class="panel-title">add tokens</div>
+      <div class="field">
+        <div class="input-row">
+          <input type="password" id="new-token" placeholder="bot token">
+          <button class="btn-sm-run" onclick="addToken()">add</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>bulk import — one per line</label>
+        <textarea id="bulk-tokens" rows="6" placeholder="token1&#10;token2&#10;token3"></textarea>
+      </div>
+      <div class="actions">
+        <button class="btn-ghost" onclick="bulkImport()">import</button>
+        <button class="btn-ghost" onclick="exportTokens()">export valid</button>
+        <button class="btn-ghost" onclick="copyValidTokens()">copy valid</button>
+        <button class="btn-del" onclick="clearTokens()">clear all</button>
+      </div>
+      <div class="field inline-field" style="margin-top:12px">
+        <label>auto-check on add</label>
+        <label class="toggle" style="margin-left:8px">
+          <input type="checkbox" id="auto-check-toggle" onchange="S.set('autoCheck',this.checked)">
+          <span class="toggle-track"><span class="toggle-thumb"></span></span>
+        </label>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">
+        loaded <span id="token-list-count" style="color:var(--accent)">0</span>
+      </div>
+      <div class="filter-bar" style="margin-bottom:10px;display:flex;gap:4px">
+        <button class="filter-tab active" onclick="setTokenFilter('all',this)">all</button>
+        <button class="filter-tab" onclick="setTokenFilter('valid',this)">valid</button>
+        <button class="filter-tab" onclick="setTokenFilter('invalid',this)">invalid</button>
+        <button class="filter-tab" onclick="setTokenFilter('pending',this)">pending</button>
+        <button class="filter-tab" onclick="setTokenFilter('limited',this)">⚠ limited</button>
+      </div>
+      <div id="token-list">
+        <p class="empty">no tokens loaded.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <!-- MESSAGE PAGE -->
+    <div class="page" id="page-message" data-title="message">
+      <div class="two-col">
+        <div>
+          <div class="panel">
+            <div class="panel-title">dm message</div>
+            <div class="field">
+              <textarea id="dm-message" rows="10" placeholder="enter message..."></textarea>
+            </div>
+            <div class="field inline-field">
+              <label>delay (seconds)</label>
+              <input type="text" id="dm-delay" value="1" style="width:70px">
+            </div>
+            <div class="actions">
+              <button class="btn-run" onclick="saveMessage()">save</button>
+              <button class="btn-ghost" onclick="saveMessageAs()">save as template</button>
+              <span id="msg-saved" class="saved-notice">saved</span>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">variables</div>
+            <p class="dim-text" style="margin-bottom:12px">use these in your message to personalise each dm.</p>
+            <div class="var-table">
+              <span class="var-tag">{username}</span><span class="dim-text">their username</span>
+              <span class="var-tag">{mention}</span><span class="dim-text">pings them inline</span>
+              <span class="var-tag">{userid}</span><span class="dim-text">their discord id</span>
+              <span class="var-tag">{date}</span><span class="dim-text">today's date</span>
+              <span class="var-tag">{server}</span><span class="dim-text">guild name (global mode)</span>
+              <span class="var-tag">&lt;@userid&gt;</span><span class="dim-text">same as {mention}, raw discord syntax</span>
+            </div>
+            <div class="var-example">
+              <div class="var-example-label">example</div>
+              <pre>yo {username}
+{mention} come check us out
+
+discord.gg/example</pre>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">skip list</div>
+            <p class="dim-text" style="margin-bottom:10px">exclude users or servers from all dm runs.</p>
+            <div class="tab-bar" style="margin-bottom:12px">
+              <button class="tab active" onclick="switchSkipTab('users',this)">users <span id="skip-user-count" style="opacity:0.7">0</span></button>
+              <button class="tab" onclick="switchSkipTab('servers',this)">servers <span id="skip-server-count" style="opacity:0.7">0</span></button>
+            </div>
+            <div id="skip-tab-users">
+              <div class="field">
+                <label>user ids — comma, space, or newline separated</label>
+                <textarea id="skip-input" rows="3" placeholder="123456789&#10;987654321"></textarea>
+              </div>
+              <div class="actions">
+                <button class="btn-ghost" onclick="addSkipIds('user')">add</button>
+                <button class="btn-del" onclick="clearSkipList('user')">clear</button>
+              </div>
+              <div id="skip-list-display" style="margin-top:10px"><p class="empty">no users skipped.</p></div>
+            </div>
+            <div id="skip-tab-servers" style="display:none">
+              <div class="field">
+                <label>server ids — comma, space, or newline separated</label>
+                <textarea id="skip-server-input" rows="3" placeholder="123456789&#10;987654321"></textarea>
+              </div>
+              <div class="actions">
+                <button class="btn-ghost" onclick="addSkipIds('server')">add</button>
+                <button class="btn-del" onclick="clearSkipList('server')">clear</button>
+              </div>
+              <div id="skip-server-list-display" style="margin-top:10px"><p class="empty">no servers skipped.</p></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="panel">
+            <div class="panel-title">saved templates <span id="tpl-count" style="color:var(--accent)">0</span></div>
+            <div class="field" style="margin-bottom:8px">
+              <input type="text" id="tpl-filter" placeholder="filter by name or tag..." oninput="renderTemplates()">
+            </div>
+            <div id="tpl-list"><p class="empty">no templates saved.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHECKER PAGE -->
+    <div class="page" id="page-checker" data-title="checker">
+      <div class="checker-layout">
+        <div class="checker-col">
+          <div class="panel">
+            <div class="panel-title">token checker</div>
+            <p class="dim-text">validates each token against the discord api.</p>
+            <div class="actions" style="margin-top:12px">
+              <button class="btn-run" onclick="checkTokens()">▶ check all</button>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">results</div>
+            <div id="checker-progress" class="checker-progress-wrap" style="display:none;">
+              <div class="checker-progress-top">
+                <span id="checker-progress-text">checking...</span>
+                <span id="checker-progress-percent">0%</span>
+              </div>
+              <div class="checker-progress-bar">
+                <div id="checker-progress-fill"></div>
+              </div>
+            </div>
+            <div id="checker-results"><p class="empty">run checker to see results.</p></div>
+          </div>
+        </div>
+        <div class="checker-col">
+          <div class="panel">
+            <div class="panel-title">server checker</div>
+            <p class="dim-text">fetches every server each bot is in — duplicates are merged by guild id.</p>
+            <div class="actions" style="margin-top:12px">
+              <button class="btn-run" onclick="checkAllServers()">▶ check all servers</button>
+              <button class="btn-ghost" onclick="clearServerCache()">clear</button>
+              <span id="sc-status" class="dim-text"></span>
+            </div>
+          </div>
+          <div class="panel" id="sc-result-panel">
+            <div class="panel-title" style="display:flex;align-items:center;justify-content:space-between">
+              <span>servers <span id="sc-count" style="color:var(--accent)">0</span></span>
+              <span class="dim-text" style="font-size:11px">total members: <span id="sc-total-members" style="color:var(--accent)">—</span></span>
+            </div>
+            <div class="sc-controls">
+              <input type="text" id="sc-search" placeholder="search by name..." oninput="renderServerResults()">
+              <select id="sc-sort" onchange="renderServerResults()">
+                <option value="default">sort: default</option>
+                <option value="members-desc">most members</option>
+                <option value="members-asc">least members</option>
+                <option value="boost-desc">highest boost</option>
+                <option value="name-asc">name a–z</option>
+              </select>
+              <select id="sc-filter-verified" onchange="renderServerResults()">
+                <option value="all">all</option>
+                <option value="verified">verified</option>
+                <option value="unverified">unverified</option>
+              </select>
+            </div>
+            <div id="sc-result"><p class="empty">run server checker to see results.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EMBED PAGE -->
+    <div class="page" id="page-embed" data-title="embed builder">
+      <div class="embed-layout">
+        <div class="embed-col">
+          <div class="panel">
+            <div class="panel-title">embed builder</div>
+            <div class="field"><label>title</label><input type="text" id="eb-title" placeholder="embed title" oninput="renderEmbedPreview()"></div>
+            <div class="field"><label>description</label><textarea id="eb-desc" rows="4" placeholder="embed description..." oninput="renderEmbedPreview()"></textarea></div>
+            <div class="field"><label>url (title link)</label><input type="text" id="eb-url" placeholder="https://..." oninput="renderEmbedPreview()"></div>
+            <div class="field inline-field">
+              <label>color</label>
+              <input type="color" id="eb-color" value="#7b68ee" oninput="renderEmbedPreview()" style="width:40px;height:28px;padding:2px;cursor:pointer;border-radius:3px;">
+              <label style="margin-left:16px">timestamp</label>
+              <label class="toggle" style="margin-left:8px">
+                <input type="checkbox" id="eb-timestamp" onchange="renderEmbedPreview()">
+                <span class="toggle-track"><span class="toggle-thumb"></span></span>
+              </label>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">author</div>
+            <div class="field"><label>name</label><input type="text" id="eb-author-name" placeholder="author name" oninput="renderEmbedPreview()"></div>
+            <div class="field"><label>icon url</label><input type="text" id="eb-author-icon" placeholder="https://..." oninput="renderEmbedPreview()"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">images</div>
+            <div class="field"><label>thumbnail url</label><input type="text" id="eb-thumbnail" placeholder="https://..." oninput="renderEmbedPreview()"></div>
+            <div class="field"><label>image url</label><input type="text" id="eb-image" placeholder="https://..." oninput="renderEmbedPreview()"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">footer</div>
+            <div class="field"><label>text</label><input type="text" id="eb-footer-text" placeholder="footer text" oninput="renderEmbedPreview()"></div>
+            <div class="field"><label>icon url</label><input type="text" id="eb-footer-icon" placeholder="https://..." oninput="renderEmbedPreview()"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">fields</div>
+            <div id="eb-fields-container"></div>
+            <button class="btn-ghost btn-xs" onclick="addEmbedField()" style="margin-top:4px">+ add field</button>
+          </div>
+          <div class="panel">
+            <div class="panel-title">send</div>
+            <p class="dim-text" style="margin-bottom:12px">send this embed to a channel or as a mass dm.</p>
+            <div class="field"><label>channel id — send to channel via bot</label>
+              <div class="input-row"><input type="text" id="eb-channel-id" placeholder="channel id"><button class="btn-sm-run" onclick="sendEmbed()">send embed</button></div>
+            </div>
+            <div class="field"><label>guild id — mass dm embed to all members</label>
+              <div class="input-row"><input type="text" id="eb-guild-id" placeholder="guild id"><button class="btn-sm-run" onclick="sendEmbedDM()">send dm</button></div>
+            </div>
+            <span id="eb-status" class="dim-text" style="margin-top:6px;display:block"></span>
+          </div>
+        </div>
+        <div class="embed-col">
+          <div class="panel">
+            <div class="panel-title">preview</div>
+            <div id="eb-preview-wrap">
+              <div class="discord-msg">
+                <div class="discord-avatar"></div>
+                <div class="discord-bubble">
+                  <span class="discord-bot-name">bot <span class="discord-bot-tag">APP</span></span>
+                  <div id="eb-preview" class="discord-embed">
+                    <div class="de-pill" id="de-pill"></div>
+                    <div class="de-body">
+                      <div class="de-author" id="de-author" style="display:none">
+                        <img class="de-author-icon" id="de-author-icon" src="" style="display:none">
+                        <span id="de-author-name"></span>
+                      </div>
+                      <div class="de-title" id="de-title"></div>
+                      <div class="de-desc" id="de-desc"></div>
+                      <img class="de-image" id="de-image" src="" style="display:none">
+                      <div class="de-footer" id="de-footer" style="display:none">
+                        <img class="de-footer-icon" id="de-footer-icon" src="" style="display:none">
+                        <span id="de-footer-text"></span>
+                      </div>
+                    </div>
+                    <img class="de-thumbnail" id="de-thumbnail" src="" style="display:none">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-title" style="display:flex;align-items:center;justify-content:space-between">
+              json payload
+              <button class="btn-ghost btn-xs" id="eb-copy-json" onclick="copyEmbedJSON()">copy json</button>
+            </div>
+            <pre id="eb-json" class="embed-json"></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEBHOOK PAGE -->
+    <div class="page" id="page-webhook" data-title="webhook">
+      <div class="embed-layout">
+        <div class="embed-col">
+          <div class="panel">
+            <div class="panel-title">webhook message</div>
+            <p class="dim-text" style="margin-bottom:12px">send a message or embed to a discord webhook url.</p>
+            <div class="field"><label>webhook url</label><input type="text" id="wh-url" placeholder="https://discord.com/api/webhooks/..." oninput="renderWebhookPreview()"></div>
+            <div class="field"><label>username (optional)</label><input type="text" id="wh-username" placeholder="override bot name" oninput="renderWebhookPreview()"></div>
+            <div class="field"><label>avatar url (optional)</label><input type="text" id="wh-avatar" placeholder="https://..." oninput="renderWebhookPreview()"></div>
+            <div class="field"><label>message content</label><textarea id="wh-content" rows="5" placeholder="message content..." oninput="renderWebhookPreview()"></textarea></div>
+            <div class="field inline-field">
+              <label>attach embed from builder</label>
+              <label class="toggle" style="margin-left:8px">
+                <input type="checkbox" id="wh-embed" onchange="renderWebhookPreview()">
+                <span class="toggle-track"><span class="toggle-thumb"></span></span>
+              </label>
+            </div>
+            <div class="field inline-field">
+              <label>send after (seconds)</label>
+              <input type="text" id="wh-schedule" placeholder="0" style="width:70px;margin-left:8px">
+            </div>
+            <div class="actions">
+              <button class="btn-run" onclick="sendWebhook()">▶ send</button>
+              <span id="wh-status" class="dim-text"></span>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">url history</div>
+            <div id="wh-history"><p class="empty">no history.</p></div>
+          </div>
+          <div class="panel log-panel">
+            <div class="log-header"><span>output</span></div>
+            <div class="log" id="wh-log"><div class="log-line log-info">[~] ready.</div></div>
+          </div>
+        </div>
+        <div class="embed-col">
+          <div class="panel">
+            <div class="panel-title">preview</div>
+            <div class="discord-msg">
+              <div class="discord-avatar" id="wh-preview-avatar" style="background:var(--border2);overflow:hidden">
+                <img id="wh-avatar-img" src="" style="width:100%;height:100%;object-fit:cover;display:none">
+              </div>
+              <div class="discord-bubble">
+                <span class="discord-bot-name">
+                  <span id="wh-preview-name">webhook</span>
+                  <span class="discord-bot-tag">WEBHOOK</span>
+                </span>
+                <div id="wh-preview-content" class="wh-preview-text"></div>
+                <div id="wh-preview-embed-wrap" style="display:none">
+                  <div class="discord-embed">
+                    <div class="de-pill" id="wh-de-pill"></div>
+                    <div class="de-body">
+                      <div class="de-author" id="wh-de-author" style="display:none">
+                        <img class="de-author-icon" id="wh-de-author-icon" src="" style="display:none">
+                        <span id="wh-de-author-name"></span>
+                      </div>
+                      <div class="de-title" id="wh-de-title" style="display:none"></div>
+                      <div class="de-desc" id="wh-de-desc" style="display:none"></div>
+                      <img class="de-image" id="wh-de-image" src="" style="display:none">
+                      <div class="de-footer" id="wh-de-footer" style="display:none">
+                        <img class="de-footer-icon" id="wh-de-footer-icon" src="" style="display:none">
+                        <span id="wh-de-footer-text"></span>
+                      </div>
+                    </div>
+                    <img class="de-thumbnail" id="wh-de-thumbnail" src="" style="display:none">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NUKE PAGE -->
+    <div class="page" id="page-nuke" data-title="nuke">
+      <div class="nuke-layout">
+        <div class="nuke-col">
+
+          <!-- Config -->
+          <div class="panel">
+            <div class="panel-title" style="display:flex;align-items:center;justify-content:space-between">
+              nuke config
+              <div style="display:flex;gap:5px">
+                <button class="btn-ghost btn-xs" onclick="exportNukeConfig()">↑ export</button>
+                <button class="btn-ghost btn-xs" onclick="importNukeConfig()">↓ import</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>target guild id</label>
+              <input type="text" id="nuke-guild-id" placeholder="123456789012345678">
+            </div>
+
+            <div class="nuke-section-label">server</div>
+            <div class="field">
+              <label>server name <span class="dim-text" style="font-size:10px">(servername)</span></label>
+              <input type="text" id="nuke-servername" placeholder="NUKED" value="NUKED">
+            </div>
+
+            <div class="nuke-section-label">channels</div>
+            <div class="field inline-field">
+              <label>delete channels <span class="dim-text" style="font-size:10px">(deletechannels)</span></label>
+              <label class="toggle" style="margin-left:auto">
+                <input type="checkbox" id="nuke-deletechannels" checked>
+                <span class="toggle-track"><span class="toggle-thumb"></span></span>
+              </label>
+            </div>
+            <div class="field inline-field">
+              <label>create spam channels <span class="dim-text" style="font-size:10px">(createchannels)</span></label>
+              <label class="toggle" style="margin-left:auto">
+                <input type="checkbox" id="nuke-createchannels" checked onchange="nukeToggleSpam(this.checked)">
+                <span class="toggle-track"><span class="toggle-thumb"></span></span>
+              </label>
+            </div>
+            <div id="nuke-spam-fields">
+              <div class="field">
+                <label>channel name <span class="dim-text" style="font-size:10px">(channelname)</span></label>
+                <input type="text" id="nuke-channelname" placeholder="nuked" value="nuked-by-mawu">
+              </div>
+              <div class="field">
+                <label>channel count <span class="dim-text" style="font-size:10px">(channelcount)</span></label>
+                <input type="text" id="nuke-channelcount" placeholder="50" value="50" style="width:80px">
+              </div>
+            </div>
+
+            <div class="nuke-section-label">roles</div>
+            <div class="field inline-field">
+              <label>delete roles <span class="dim-text" style="font-size:10px">(deleteroles)</span></label>
+              <label class="toggle" style="margin-left:auto">
+                <input type="checkbox" id="nuke-deleteroles" checked>
+                <span class="toggle-track"><span class="toggle-thumb"></span></span>
+              </label>
+            </div>
+
+            <div class="nuke-section-label">members</div>
+            <div class="field inline-field">
+              <label>ban members <span class="dim-text" style="font-size:10px">(banmembers)</span></label>
+              <label class="toggle" style="margin-left:auto">
+                <input type="checkbox" id="nuke-banmembers">
+                <span class="toggle-track"><span class="toggle-thumb"></span></span>
+              </label>
+            </div>
+
+            <div class="nuke-section-label">webhook spam</div>
+            <div class="field">
+              <label>spam message <span class="dim-text" style="font-size:10px">(spammessage)</span></label>
+              <textarea id="nuke-spammessage" rows="3" placeholder="@everyone SERVER NUKED">@everyone SERVER NUKED LMAOO discord.gg/wtnk</textarea>
+            </div>
+            <div class="field">
+              <label>spam count per channel <span class="dim-text" style="font-size:10px">(spamcount)</span></label>
+              <input type="text" id="nuke-spamcount" placeholder="10" value="30" style="width:80px">
+            </div>
+            <div class="field">
+              <label>webhook name <span class="dim-text" style="font-size:10px">(webhookname)</span></label>
+              <input type="text" id="nuke-webhookname" placeholder="NUKED" value="NUKED">
+            </div>
+            <div class="field">
+              <label>webhook avatar url <span class="dim-text" style="font-size:10px">(webhookavatar)</span></label>
+              <input type="text" id="nuke-webhookavatar" placeholder="https://... (optional)">
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="panel">
+            <div class="panel-title">actions</div>
+            <p class="dim-text" style="margin-bottom:14px">bots are distributed across tasks automatically — more bots = faster nuke. requires administrator.</p>
+            <div class="actions">
+              <button class="btn-nuke" onclick="startNuke()">☢ start nuke</button>
+              <button class="btn-stop" onclick="stopNuke()">■ stop</button>
+            </div>
+          </div>
+
+          <!-- Stats -->
+          <div class="panel">
+            <div class="panel-title">stats</div>
+            <div class="nuke-stat-grid">
+              <div class="nuke-stat"><span class="nuke-sval" id="nuke-stat-channels">0</span><span class="nuke-slbl">ch. deleted</span></div>
+              <div class="nuke-stat"><span class="nuke-sval" id="nuke-stat-roles">0</span><span class="nuke-slbl">roles deleted</span></div>
+              <div class="nuke-stat"><span class="nuke-sval" id="nuke-stat-bans">0</span><span class="nuke-slbl">banned</span></div>
+              <div class="nuke-stat"><span class="nuke-sval" id="nuke-stat-created">0</span><span class="nuke-slbl">ch. created</span></div>
+              <div class="nuke-stat"><span class="nuke-sval" id="nuke-stat-spammed">0</span><span class="nuke-slbl">msgs spammed</span></div>
+              <div class="nuke-stat"><span class="nuke-sval" id="nuke-stat-status">idle</span><span class="nuke-slbl">status</span></div>
+            </div>
+          </div>
+
+        </div>
+        <div class="nuke-col">
+
+          <!-- Log -->
+          <div class="panel log-panel">
+            <div class="log-header">
+              <span>nuke log</span>
+              <div style="display:flex;gap:6px">
+                <button class="btn-ghost btn-xs" onclick="exportNukeLog()">export</button>
+                <button class="btn-ghost btn-xs" onclick="clearNukeLog()">clear</button>
+              </div>
+            </div>
+            <div class="log" id="nuke-log" style="height:600px"><div class="log-line log-info">[~] ready.</div></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- LOG PAGE -->
+    <div class="page" id="page-log" data-title="log">
+      <div class="panel log-panel">
+        <div class="log-header">
+          <span>activity log</span>
+          <div style="display:flex;gap:6px">
+            <button class="btn-ghost btn-xs" onclick="exportLog()">export .txt</button>
+            <button class="btn-ghost btn-xs" onclick="exportLogCSV()">export .csv</button>
+            <button class="btn-ghost btn-xs" onclick="clearLog()">clear</button>
+          </div>
+        </div>
+        <div class="log" id="activity-log" style="height:560px"><div class="log-line log-info">[~] no activity yet.</div></div>
+      </div>
+    </div>
+
+    <!-- SETTINGS PAGE -->
+<div class="page" id="page-settings" data-title="settings">
+
+  <div class="settings-header">
+    <div>
+      <div class="settings-title">settings</div>
+      <div class="settings-subtitle">Customize your MassDM experience.</div>
+    </div>
+    <div class="settings-status">
+      <span class="settings-status-dot"></span>
+      settings saved
+    </div>
+  </div>
+
+  <div class="settings-grid">
+
+    <!-- APPEARANCE -->
+    <div class="panel settings-panel">
+      <div class="settings-section-head">
+        <div class="settings-icon">✦</div>
+        <div>
+          <div class="panel-title">appearance</div>
+          <div class="settings-description">Customize the look and feel of the dashboard.</div>
+        </div>
+      </div>
+
+      <div class="setting-row">
+        <div>
+          <div class="setting-name">theme</div>
+          <div class="setting-desc">Switch between dark and light mode.</div>
+        </div>
+        <button class="btn-ghost btn-xs" id="theme-toggle" onclick="toggleTheme()">☀</button>
+      </div>
+
+      <div class="setting-row">
+        <div>
+          <div class="setting-name">accent color</div>
+          <div class="setting-desc">Choose the main color used throughout the interface.</div>
+        </div>
+        <div class="color-control">
+          <input type="color" id="accent-color-picker" value="#7c6ff7" onchange="changeAccentColor(this.value)">
+        </div>
+      </div>
+
+      <div class="color-presets">
+        <button class="color-preset" style="--preset:#7c6ff7" onclick="changeAccentColor('#7c6ff7')" title="Purple"></button>
+        <button class="color-preset" style="--preset:#5865f2" onclick="changeAccentColor('#5865f2')" title="Discord Blue"></button>
+        <button class="color-preset" style="--preset:#00b8d9" onclick="changeAccentColor('#00b8d9')" title="Cyan"></button>
+        <button class="color-preset" style="--preset:#e879f9" onclick="changeAccentColor('#e879f9')" title="Pink"></button>
+        <button class="color-preset" style="--preset:#ef4444" onclick="changeAccentColor('#ef4444')" title="Red"></button>
+        <button class="color-preset" style="--preset:#22c55e" onclick="changeAccentColor('#22c55e')" title="Green"></button>
+        <button class="color-preset" style="--preset:#f59e0b" onclick="changeAccentColor('#f59e0b')" title="Orange"></button>
+      </div>
+
+      <div class="setting-row">
+        <div>
+          <div class="setting-name">animations</div>
+          <div class="setting-desc">Enable smooth interface animations.</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="animations-toggle" checked onchange="toggleAnimations(this.checked)">
+          <span class="toggle-track"><span class="toggle-thumb"></span></span>
+        </label>
+      </div>
+
+      <div class="setting-row">
+        <div>
+          <div class="setting-name">glow effects</div>
+          <div class="setting-desc">Control the intensity of purple accent glows.</div>
+        </div>
+        <input class="settings-range" type="range" id="glow-intensity" min="0" max="100" value="50" oninput="changeGlow(this.value)">
+      </div>
+
+      <button class="btn-ghost settings-reset-btn" onclick="resetAppearance()">reset appearance</button>
+    </div>
+
+    <!-- INTERFACE -->
+    <div class="panel settings-panel">
+      <div class="settings-section-head">
+        <div class="settings-icon">⌘</div>
+        <div>
+          <div class="panel-title">interface</div>
+          <div class="settings-description">Control how the dashboard behaves.</div>
+        </div>
+      </div>
+
+      <div class="setting-row">
+        <div>
+          <div class="setting-name">compact mode</div>
+          <div class="setting-desc">Reduce spacing for a more compact layout.</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="compact-toggle" onchange="toggleCompactMode(this.checked)">
+          <span class="toggle-track"><span class="toggle-thumb"></span></span>
+        </label>
+      </div>
+
+      <div class="setting-row">
+        <div>
+          <div class="setting-name">remember last page</div>
+          <div class="setting-desc">Open the last page you were using.</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="remember-page-toggle" checked onchange="S.set('rememberPage',this.checked)">
+          <span class="toggle-track"><span class="toggle-thumb"></span></span>
+        </label>
+      </div>
+
+      <div class="setting-row">
+        <div>
+          <div class="setting-name">sidebar state</div>
+          <div class="setting-desc">Keep your sidebar expanded or collapsed.</div>
+        </div>
+        <button class="btn-ghost btn-xs" onclick="toggleSidebar()">toggle</button>
+      </div>
+    </div>
+
+    <!-- AUDIO -->
+    <div class="panel settings-panel">
+      <div class="settings-section-head">
+        <div class="settings-icon">♫</div>
+        <div>
+          <div class="panel-title">audio</div>
+          <div class="settings-description">Control background music.</div>
+        </div>
+      </div>
+
+      <div class="setting-row">
+        <div>
+          <div class="setting-name">background music</div>
+          <div class="setting-desc">Play music while using the dashboard.</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="music-toggle" checked onchange="toggleBackgroundMusic(this.checked)">
+          <span class="toggle-track"><span class="toggle-thumb"></span></span>
+        </label>
+      </div>
+
+      <div class="setting-row">
+        <div>
+          <div class="setting-name">volume</div>
+          <div class="setting-desc">Adjust background music volume.</div>
+        </div>
+        <input class="settings-range" type="range" id="settings-volume" min="0" max="100" value="40" oninput="changeMusicVolume(this.value)">
+      </div>
+    </div>
+
+    <!-- NOTIFICATIONS -->
+    <div class="panel settings-panel">
+      <div class="settings-section-head">
+        <div class="settings-icon">!</div>
+        <div>
+          <div class="panel-title">notifications</div>
+          <div class="settings-description">Control dashboard notifications.</div>
+        </div>
+      </div>
+
+      <div class="setting-row">
+        <div>
+          <div class="setting-name">notifications</div>
+          <div class="setting-desc">Show success and status notifications.</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="notifications-toggle" checked onchange="S.set('notifications',this.checked)">
+          <span class="toggle-track"><span class="toggle-thumb"></span></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- BACKUP -->
+    <div class="panel settings-panel">
+      <div class="settings-section-head">
+        <div class="settings-icon">↥</div>
+        <div>
+          <div class="panel-title">backup & data</div>
+          <div class="settings-description">Manage your locally saved dashboard data.</div>
+        </div>
+      </div>
+
+      <div class="setting-actions">
+        <button class="btn-run" onclick="exportSettings()">export backup</button>
+        <button class="btn-ghost" onclick="importSettings()">import backup</button>
+      </div>
+
+      <div class="settings-warning">
+        <span>⚠</span>
+        <span>Backups may contain sensitive locally stored information. Keep exported files private.</span>
+      </div>
+    </div>
+
+    <!-- SHORTCUTS -->
+    <div class="panel settings-panel">
+      <div class="settings-section-head">
+        <div class="settings-icon">⌨</div>
+        <div>
+          <div class="panel-title">keyboard shortcuts</div>
+          <div class="settings-description">Quick controls for the dashboard.</div>
+        </div>
+      </div>
+
+      <div class="shortcut-row">
+        <span>start mass dm</span>
+        <span class="shortcut-key">ctrl + enter</span>
+      </div>
+
+      <div class="shortcut-row">
+        <span>stop mass dm</span>
+        <span class="shortcut-key">esc</span>
+      </div>
+    </div>
+
+    <!-- ABOUT -->
+    <div class="panel settings-panel settings-about">
+      <div class="settings-section-head">
+        <div class="settings-icon">M</div>
+        <div>
+          <div class="panel-title">about massdm</div>
+          <div class="settings-description">Dashboard information.</div>
+        </div>
+      </div>
+
+      <div class="about-row">
+        <span>version</span>
+        <span class="about-value">1.0</span>
+      </div>
+
+      <div class="about-row">
+        <span>interface</span>
+        <span class="about-value">MassDM Dashboard</span>
+      </div>
+
+      <button class="btn-del settings-reset-btn" onclick="resetAllSettings()">reset settings</button>
+    </div>
+
+  </div>
+</div>
+<!-- ADMIN PANEL -->
+<div id="adminPanel" style="display:none;">
+  <div class="admin-header">
+    <div>
+      <h1>Admin Panel</h1>
+      <p>MassDM Dashboard</p>
+    </div>
+    <span class="admin-status">● ADMIN</span>
+  </div>
+
+  <div class="admin-grid">
+    <div class="admin-card">
+      <span class="admin-icon">👥</span>
+      <div><h3>Total Servers</h3><strong id="adminTotalServers">0</strong></div>
+    </div>
+
+    <div class="admin-card">
+      <span class="admin-icon">✓</span>
+      <div><h3>Verified Servers</h3><strong id="adminVerifiedServers">0</strong></div>
+    </div>
+
+    <div class="admin-card">
+      <span class="admin-icon">⚡</span>
+      <div><h3>Active Users</h3><strong id="adminActiveUsers">0</strong></div>
+    </div>
+
+    <div class="admin-card">
+      <span class="admin-icon">📨</span>
+      <div><h3>Messages Sent</h3><strong id="adminMessagesSent">—</strong></div>
+    </div>
+  </div>
+
+  <div class="admin-section">
+    <div class="admin-section-header">
+      <div>
+        <h2>Server Management</h2>
+        <p>View and manage connected servers.</p>
+      </div>
+
+      <div class="admin-controls">
+        <input id="adminSearch" type="text" placeholder="Search servers..." oninput="filterAdminServers()">
+
+        <select id="adminFilter" onchange="filterAdminServers()">
+          <option value="all">All Servers</option>
+          <option value="verified">Verified</option>
+          <option value="unverified">Unverified</option>
+        </select>
+
+        <select id="adminSort" onchange="filterAdminServers()">
+          <option value="members-desc">Members ↓</option>
+          <option value="members-asc">Members ↑</option>
+          <option value="name-asc">Name A-Z</option>
+          <option value="name-desc">Name Z-A</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="adminServerList" class="admin-server-list"></div>
+  </div>
+</div>
+
+<style>
+#adminPanel {
+  width:100%;
+  min-height:100vh;
+  padding:30px;
+  box-sizing:border-box;
+}
+
+.admin-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:28px;
+}
+
+.admin-header h1 { margin:0; font-size:30px; }
+.admin-header p { margin:6px 0 0; opacity:.55; }
+
+.admin-status {
+  padding:8px 14px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:700;
+  background:rgba(130,70,255,.12);
+  border:1px solid rgba(130,70,255,.3);
+}
+
+.admin-grid {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+  margin-bottom:25px;
+}
+
+.admin-card {
+  display:flex;
+  align-items:center;
+  gap:15px;
+  padding:20px;
+  border-radius:18px;
+  background:rgba(255,255,255,.035);
+  border:1px solid rgba(255,255,255,.08);
+}
+
+.admin-card h3 {
+  margin:0 0 5px;
+  font-size:13px;
+  opacity:.55;
+}
+
+.admin-card strong { font-size:25px; }
+
+.admin-icon {
+  width:45px;
+  height:45px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:13px;
+  background:rgba(130,70,255,.13);
+}
+
+.admin-section {
+  padding:22px;
+  border-radius:20px;
+  background:rgba(255,255,255,.025);
+  border:1px solid rgba(255,255,255,.08);
+}
+
+.admin-section-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  margin-bottom:20px;
+}
+
+.admin-section-header h2 { margin:0; }
+.admin-section-header p { margin:5px 0 0; opacity:.5; font-size:13px; }
+
+.admin-controls {
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.admin-controls input,
+.admin-controls select {
+  padding:11px 13px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.04);
+  color:inherit;
+  outline:none;
+}
+
+.admin-server-list {
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.admin-server {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  padding:15px;
+  border-radius:14px;
+  background:rgba(255,255,255,.035);
+  border:1px solid rgba(255,255,255,.06);
+}
+
+.admin-server-info {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:0;
+}
+
+.admin-server-icon {
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  object-fit:cover;
+}
+
+.admin-server-name { font-weight:700; }
+
+.admin-server-meta {
+  font-size:12px;
+  opacity:.5;
+  margin-top:3px;
+}
+
+.admin-verified,
+.admin-unverified {
+  font-size:11px;
+  padding:5px 9px;
+  border-radius:999px;
+}
+
+.admin-verified {
+  background:rgba(70,255,150,.1);
+  color:#6dffab;
+}
+
+.admin-unverified {
+  background:rgba(255,180,70,.1);
+  color:#ffc46b;
+}
+
+@media(max-width:900px) {
+  .admin-grid { grid-template-columns:repeat(2,1fr); }
+  .admin-section-header { flex-direction:column; align-items:stretch; }
+}
+
+@media(max-width:600px) {
+  #adminPanel { padding:18px; }
+  .admin-grid { grid-template-columns:1fr; }
+}
+</style>
+
+<script>
+const ADMIN_USER_ID = "1550556444292550728";
+
+let adminServers = [];
+
+function openAdminPanel(userId) {
+  if (userId !== ADMIN_USER_ID) {
+    alert("Access denied.");
+    return;
+  }
+
+  document.getElementById("adminPanel").style.display = "block";
+  loadAdminData();
+}
+
+async function loadAdminData() {
+  try {
+    const response = await fetch("/api/admin/servers");
+
+    if (!response.ok) throw new Error("Failed to load servers");
+
+    adminServers = await response.json();
+  } catch (error) {
+    console.error("Admin data error:", error);
+    adminServers = [];
+  }
+
+  updateAdminStats();
+  filterAdminServers();
+}
+
+function updateAdminStats() {
+  const total = adminServers.length;
+
+  const verified = adminServers.filter(
+    server => server.verified
+  ).length;
+
+  const members = adminServers.reduce(
+    (sum, server) => sum + (server.approximate_member_count || 0),
+    0
+  );
+
+  document.getElementById("adminTotalServers").textContent =
+    total.toLocaleString();
+
+  document.getElementById("adminVerifiedServers").textContent =
+   
+</script>
+<audio id="bg-audio" loop><source src="audio/music.mp3" type="audio/mpeg"></audio>
+<script src="js/app.js"></script>
+</body>
+</html>
